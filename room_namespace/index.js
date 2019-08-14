@@ -9,7 +9,8 @@ const onConnection = (socket) => {
 
     console.log(`Socket connected to port ${config.PORT}`)
 
-    let userRoom
+    var userRoom
+    var userName
 
     // Listening for joining a room
     socket.on('joinRoom', (data) => {
@@ -18,6 +19,8 @@ const onConnection = (socket) => {
         const room = data.room;
         const user = data.user;
         userRoom = room;
+        userName = user;
+        console.log(userRoom, userName)
         console.log(`user ${user} wants to join the room ${room}`);
         socket.join(room, () => {
             console.log(`user ${user} joined the room ${room}`);
@@ -54,20 +57,29 @@ const onConnection = (socket) => {
     // socket.on('changeStatus', events.changeStatus(socket, namespace))
 
     // Disconnect
-    socket.on('disconnect', () => {
-        console.log(`Socket ${socket.id} disconnected`);
-        // ChatRedis.getUser(userRoom, socket.id).then( user => {
-        //     if(user !== null){
-        //         events.leaveChat(socket, namespace)({
-        //             room: userRoom,
-        //             username: user.username
-        //         })
-        //         return user
-        //     }
-        // }).then( user => {
-        //     ChatRedis.delUser(user.username, config.KEY)
-        // })
+    // socket.on('disconnect', events.disconnect(socket, namespace, userName, userRoom))
+    socket.on('disconnect', function () {
+        console.log(userName, userRoom)
+        if (userRoom != undefined && userName != undefined) {
+            socket.leave(userRoom, () => {
+                console.log(`user ${userName} left the room ${userRoom}`);
+
+                RoomList.leaveRoom(userRoom, userName)
+                namespace.in(userRoom).emit('userLeft', { userName });
+            })
+        }
     })
+    // ChatRedis.getUser(userRoom, socket.id).then( user => {
+    //     if(user !== null){
+    //         events.leaveChat(socket, namespace)({
+    //             room: userRoom,
+    //             username: user.username
+    //         })
+    //         return user
+    //     }
+    // }).then( user => {
+    //     ChatRedis.delUser(user.username, config.KEY)
+    // })
 
     // Start a video
     // socket.on('startVideo')

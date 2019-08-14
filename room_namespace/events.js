@@ -8,7 +8,7 @@ const leaveRoom = (socket, namespace) => ({ room, user }) => {
         console.log(`user ${user} left the room ${room}`);
 
         RoomList.leaveRoom(room, user)
-        namespace.in(room).emit('userLeft', user);
+        namespace.in(room).emit('userLeft', { user });
     })
 }
 
@@ -17,6 +17,16 @@ const publicMessage = (namespace) => ({ room, message, username }) => {
         message,
         username
     });
+}
+const disconnect = (socket, namespace, userName, userRoom) => () => {
+    console.log(`Socket ${socket.id} disconnected`);
+    console.log(userName)
+    socket.leave(userRoom, () => {
+        console.log(`user ${userName} left the room ${userRoom}`);
+
+        RoomList.leaveRoom(userRoom, userName)
+        namespace.in(userRoom).emit('userLeft', { userName });
+    })
 }
 
 // const leaveChat = (socket, namespace) => ({ room, username }) => {
@@ -121,5 +131,6 @@ const publicMessage = (namespace) => ({ room, message, username }) => {
 
 module.exports = {
     leaveRoom,
-    publicMessage
+    publicMessage,
+    disconnect
 }
