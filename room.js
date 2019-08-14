@@ -14,6 +14,7 @@ RoomList = (function () {
     };
     RoomList.prototype.joinRoom = function(roomName, userName) {
         if (this.rooms[roomName] == null) {
+            console.log("joining room but null")
             this.addRoom(roomName)
         }
         this.rooms[roomName].users.push(userName)
