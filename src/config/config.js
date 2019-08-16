@@ -1,5 +1,4 @@
-
-const CONFIG = {
+const config = {
     PORT: process.env.PORT || 3000,
     ROOMS_NAMESPACE: '/rooms-ws',
     USERS_NAMESPACE: '/users',
@@ -7,4 +6,4 @@ const CONFIG = {
     KEY: 'unique'
 }
 
-module.exports = CONFIG
+export default config
