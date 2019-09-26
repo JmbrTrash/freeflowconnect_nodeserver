@@ -4,7 +4,8 @@ class RoomList {
     constructor() {
         if(instance ===  null) {
             console.log("Setting instance ...")
-            this.rooms = { 'GENERAL': { users: [] }, 'THREEFOLD': { users: [] }, 'JIMBER': { users: [] } };
+            // this.rooms = { 'GENERAL': { users: [] }, 'THREEFOLD': { users: [] }, 'JIMBER': { users: [] } };
+            this.rooms = {};
             instance = this;
         }
 

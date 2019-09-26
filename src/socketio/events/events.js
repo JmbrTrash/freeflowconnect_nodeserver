@@ -31,12 +31,19 @@ function events(sio) {
     
         console.log(` `)
     })
-    
+
     sio.on('publicMessage', ({ room, message, username }) => {
         this.in(room).emit('newMessage', {
             message,
             username
         });
+    })
+
+    sio.on('msg', ({room, msg}) => {
+        console.log('?Received message: ' + msg)
+        console.log(msg)
+        console.log(room)
+        this.in(room).emit('msg', msg);
     })
     
     sio.on('leaveRoom', ({room, user}) => {
