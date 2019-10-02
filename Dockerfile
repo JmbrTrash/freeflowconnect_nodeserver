@@ -1,7 +1,8 @@
 FROM node:12
 
-COPY build/ .
+COPY build/ app/
+RUN cd app
 RUN ls
 RUN npm install express cors socket.io body-parser
-
-CMD ["node", "NODE_ENV=production","node", "."]
+RUN export NODE_ENV=production
+CMD ["node", "."]
