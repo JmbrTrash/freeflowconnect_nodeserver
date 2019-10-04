@@ -53,19 +53,19 @@ function events(sio) {
             console.log(`user ${user} left the room ${room}`)
     
             roomList.leaveRoom(room, user)
-            this.in(room).emit('userLeft', { user })
+            this.in(room).emit('userLeft', user)
         })
     })
     
     sio.on('disconnect', function () {
-        console.log(userName, userRoom)
+        // console.log(userName, userRoom)
     
         if (userRoom != undefined && userName != undefined) {
             sio.leave(userRoom, () => {
-                console.log(`user ${userName} left the room ${userRoom}`)
+                console.log(`user ${userName} disconnected from room ${userRoom}`)
     
                 roomList.leaveRoom(userRoom, userName)
-                this.in(userRoom).emit('userLeft', { userName });
+                this.in(userRoom).emit('userLeft', userName);
             })
         }
     })

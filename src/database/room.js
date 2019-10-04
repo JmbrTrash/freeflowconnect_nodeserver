@@ -26,7 +26,10 @@ class RoomList {
         this.rooms[roomName].users.push(userName);
     }
     leaveRoom(roomName, username) {
-        this.rooms[roomName].users.pop();
+        console.log("Deleting: " + username)
+        console.log(this.rooms[roomName])
+        this.rooms[roomName].users.splice(this.rooms[roomName].users.indexOf(username), 1)
+        console.log(this.rooms[roomName])
     }
     getRoom(name) {
         return this.rooms[name];
