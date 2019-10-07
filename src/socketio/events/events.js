@@ -25,8 +25,13 @@ function events(sio) {
     
         sio.join(room, () => {
             console.log(`user ${user} joined the room ${room}`)
-            roomList.joinRoom(room, user)
-            this.in(room).emit('userJoined', { user })
+            var response = roomList.joinRoom(room, user)
+            
+            if(response) {
+                this.in(room).emit('userJoined', { user })
+            } else {
+                // Something when wrong, we should handle this accordingly. 
+            }
         })
     
         console.log(` `)

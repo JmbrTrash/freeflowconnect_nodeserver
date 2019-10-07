@@ -27,14 +27,22 @@ class RoomList {
             }
         }
 
+        if(this.rooms[roomName].users.indexOf(userName) !== -1) {
+            console.log(userName + " already in " + roomName)
+            return false;
+        }
+
         if(this.rooms[roomName] != null && userName !== undefined && userName !== null) {
-            this.rooms[roomName].users.push(userName);             
+            this.rooms[roomName].users.push(userName);
+            console.log(userName + " joined " + roomName)
+            return true;
         }
     }
     leaveRoom(roomName, username) {
         if(this.rooms !== undefined && this.rooms !== null && roomName !== undefined && roomName !== null) {
             console.log("Deleting: " + username)
             this.rooms[roomName].users.splice(this.rooms[roomName].users.indexOf(username), 1)
+            console.log(this.rooms[roomName])
         } 
     }
     getRoom(name) {
